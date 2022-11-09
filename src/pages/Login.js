@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getAPI } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -20,6 +21,12 @@ class Login extends React.Component {
     if (validateName && validateEmail) {
       this.setState({ btnDisabled: false });
     }
+  };
+
+  handleClick = () => {
+    const { dispatch, history } = this.props;
+    dispatch(getAPI());
+    history.push('/game');
   };
 
   render() {
@@ -46,6 +53,7 @@ class Login extends React.Component {
           type="button"
           disabled={ btnDisabled }
           data-testid="btn-play"
+          onClick={ this.handleClick }
         >
           Play
         </button>
@@ -53,5 +61,7 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {}.isRequired;
 
 export default connect()(Login);
