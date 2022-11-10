@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAPI, getName, getEmail } from '../redux/actions';
+import { getName, getEmail } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -26,7 +26,6 @@ class Login extends React.Component {
   handleClick = async () => {
     const { dispatch, history } = this.props;
     const { name, email } = this.state;
-    // dispatch(getAPI());
     const url = 'https://opentdb.com/api_token.php?command=request';
     const request = await fetch(url);
     const response = await request.json();
