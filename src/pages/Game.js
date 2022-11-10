@@ -11,7 +11,16 @@ class Game extends Component {
     const token = localStorage.getItem('token');
     const getAPI = await triviaAPI(token);
     this.setState({ response:getAPI });
-    console.log(getAPI);
+  }
+
+  componentDidUpdate () {
+    const { response: { response_code } } = this.state;
+    const { history } = this.props;
+    const THREE = 3;
+    if (response_code === THREE) {
+      history.push('/');
+      localStorage.removeItem('token');
+    }    
   }
 
   render() {
