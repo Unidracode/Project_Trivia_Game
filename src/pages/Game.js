@@ -14,6 +14,7 @@ class Game extends Component {
     const token = localStorage.getItem('token');
     const getAPI = await triviaAPI(token);
     this.setState({ response: getAPI });
+    console.log(response);
     if (!response.results) {
       setTimeout(() => {
         history.push('/');
