@@ -23,10 +23,14 @@ class Login extends React.Component {
     }
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     const { dispatch, history } = this.props;
     const { name, email } = this.state;
-    dispatch(getAPI());
+    // dispatch(getAPI());
+    const url = 'https://opentdb.com/api_token.php?command=request';
+    const request = await fetch(url);
+    const response = await request.json();
+    localStorage.setItem('token', response.token);
     dispatch(getName(name));
     dispatch(getEmail(email));
     history.push('/game');

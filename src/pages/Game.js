@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import Questions from '../components/Questions';
 import triviaAPI from '../helpers/triviaAPI';
 
 class Game extends Component {
+
   state = {
     response:{}
   }
-  async componentDidMount () {
-    const token = localStorage.getItem('token');
-    const getAPI = await triviaAPI(token);
-    this.setState({ response:getAPI });
-  }
 
-  componentDidUpdate () {
-    const { response: { response_code } } = this.state;
-    const { history } = this.props;
-    const THREE = 3;
-    if (response_code === THREE) {
-      history.push('/');
-      localStorage.removeItem('token');
-    }    
+  componentDidMount () {
+    const token = localStorage.getItem('token');
+    console.log(token);
+    const getAPI = triviaAPI(token).then((dado) => this.setState({
+      response: dado
+    }));
   }
 
   render() {
+    const { response } = this.state;
+
     return (
-      <Header />
+      <div>
+        <Header />
+        <Questions response={ response } />
+      </div>
     );
   }
 }
