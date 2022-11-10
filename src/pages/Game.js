@@ -1,33 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import Questions from '../components/Questions';
 import triviaAPI from '../helpers/triviaAPI';
 
 class Game extends Component {
-
   state = {
-    response:{}
-  }
+    response: {},
+  };
 
-  componentDidMount () {
+  async componentDidMount () {
+    const { response } = this.state;
+    const { history } = this.props;
     const token = localStorage.getItem('token');
-    console.log(token);
-    const getAPI = triviaAPI(token).then((dado) => this.setState({
-      response: dado
-    }));
+    const getAPI = await triviaAPI(token);
+    this.setState({ response: getAPI });
+    if (!response.results) {
+      setTimeout(() => {
+        history.push('/');
+        localStorage.removeItem('token');
+      }, 200);
+    }
   }
 
   render() {
-    const { response } = this.state;
-
     return (
       <div>
         <Header />
-        <Questions response={ response } />
       </div>
     );
   }
 }
+
+Game.propTypes = {}.isRequired;
 
 export default connect()(Game);
