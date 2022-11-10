@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAPI } from '../redux/actions';
+import { getAPI, getName, getEmail } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -25,7 +25,10 @@ class Login extends React.Component {
 
   handleClick = () => {
     const { dispatch, history } = this.props;
+    const { name, email } = this.state;
     dispatch(getAPI());
+    dispatch(getName(name));
+    dispatch(getEmail(email));
     history.push('/game');
   };
 
