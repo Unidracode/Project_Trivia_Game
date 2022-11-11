@@ -9,7 +9,7 @@ class Game extends Component {
     response: [],
     questIndex: 0,
     className: false,
-    seconds: 30,
+    seconds: 31,
   };
 
   async componentDidMount() {
@@ -21,7 +21,10 @@ class Game extends Component {
     const ONE_SECOND = 1000;
     setInterval(() => {
       const { seconds } = this.state;
-      this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
+      if (seconds > 0) {
+        this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
+      }
+      clearInterval(this.setInterval);
     }, ONE_SECOND);
   };
 
@@ -36,10 +39,13 @@ class Game extends Component {
     this.setState({ response: getAPI.results });
   };
 
-  handleQuestArray = (array) => {
+  handleQuestArray = (array, seconds) => {
     const ZERO_POINT_FIVE = 0.5;
-    const newArray = array.sort(() => Math.random() - ZERO_POINT_FIVE);
-    return newArray;
+    const THIRTY = 30;
+    if (seconds === THIRTY) {
+      const newArray = array.sort(() => Math.random() - ZERO_POINT_FIVE);
+      return newArray;
+    }
   };
 
   handleQuestClick = () => {
@@ -69,7 +75,7 @@ class Game extends Component {
                 <div data-testid="answer-options">
                   {this
                     .handleQuestArray([...element.incorrect_answers,
-                      element.correct_answer])
+                      element.correct_answer], seconds)
                     .map((argument, i = 0) => (
                       <button
                         type="button"
