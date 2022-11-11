@@ -8,6 +8,7 @@ class Game extends Component {
     response: [],
     questIndex: 0,
     className: false,
+    btnColor: 'default',
   };
 
   async componentDidMount() {
@@ -31,20 +32,19 @@ class Game extends Component {
     return newArray;
   };
 
-  handleQuestClick = () => {
-    this.setState({ className: true });
-  };
-
-  checkColors = (event) => {
+  handleQuestClick = (event) => {
+    console.log(event.target.value);
     const { value } = event.target;
     const { className } = this.state;
-    if (className) {
-      return value === 'correct' ? 'green-border' : 'red-border';
-    }
+    this.setState({ className: true }, () => {
+      if (className) {
+        this.setState({ btnColor: value === 'correct' ? 'green-border' : 'red-border' });
+      }
+    });
   };
 
   render() {
-    const { response, questIndex } = this.state;
+    const { response, questIndex, btnColor } = this.state;
     return (
       <div>
         <Header />
@@ -62,7 +62,7 @@ class Game extends Component {
                       <button
                         type="button"
                         onClick={ this.handleQuestClick }
-                        className={ this.checkColors() }
+                        className={ btnColor }
                         key={ argument }
                         value={ element.correct_answer === argument
                           ? 'correct' : 'wrong' }
