@@ -4,30 +4,34 @@ import Header from '../components/Header';
 import triviaAPI from '../helpers/triviaAPI';
 
 class Game extends Component {
-  state = {
-    response: {},
-  };
+  constructor() {
+    super();
+    this.state = {
+      response: [],
+    };
+  }
 
-  async componentDidMount () {
-    const { response } = this.state;
+  async componentDidMount() {
+    this.handleResults();
+  }
+
+  handleResults = async () => {
     const { history } = this.props;
     const token = localStorage.getItem('token');
     const getAPI = await triviaAPI(token);
-    this.setState({ response: getAPI });
-    console.log(response);
-    if (!response.results) {
-      setTimeout(() => {
-        history.push('/');
-        localStorage.removeItem('token');
-      }, 200);
+    console.log(getAPI);
+    if (getAPI.response_code !== 0) {
+      history.push('/');
+      localStorage.removeItem('token');
     }
-  }
+    this.setState({ response: getAPI.results });
+  };
 
   render() {
+    const { response } = this.state;
+    console.log(response);
     return (
-      <div>
-        <Header />
-      </div>
+      <Header />
     );
   }
 }
