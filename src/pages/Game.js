@@ -9,7 +9,7 @@ class Game extends Component {
     response: [],
     questIndex: 0,
     className: false,
-    seconds: 31,
+    seconds: 30,
   };
 
   async componentDidMount() {
@@ -24,7 +24,6 @@ class Game extends Component {
       if (seconds > 0) {
         this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
       }
-      clearInterval(this.setInterval);
     }, ONE_SECOND);
   };
 
@@ -39,13 +38,10 @@ class Game extends Component {
     this.setState({ response: getAPI.results });
   };
 
-  handleQuestArray = (array, seconds) => {
+  handleQuestArray = (array) => {
     const ZERO_POINT_FIVE = 0.5;
-    const THIRTY = 30;
-    if (seconds === THIRTY) {
-      const newArray = array.sort(() => Math.random() - ZERO_POINT_FIVE);
-      return newArray;
-    }
+    const newArray = array.sort(() => Math.random() - ZERO_POINT_FIVE);
+    return newArray;
   };
 
   handleQuestClick = () => {
@@ -65,17 +61,17 @@ class Game extends Component {
     return (
       <div>
         <Header />
+        <Timer seconds={ seconds } />
         {response.map((element, index) => {
           if (index === questIndex) {
             return (
               <div key={ index + element }>
-                <Timer seconds={ seconds } />
                 <h2 data-testid="question-category">{element.category}</h2>
                 <h3 data-testid="question-text">{element.question}</h3>
                 <div data-testid="answer-options">
                   {this
                     .handleQuestArray([...element.incorrect_answers,
-                      element.correct_answer], seconds)
+                      element.correct_answer])
                     .map((argument, i = 0) => (
                       <button
                         type="button"
