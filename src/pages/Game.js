@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import Timer from '../components/Timer';
 import triviaAPI from '../helpers/triviaAPI';
 
 class Game extends Component {
@@ -8,10 +9,20 @@ class Game extends Component {
     response: [],
     questIndex: 0,
     className: false,
+    seconds: 30,
   };
 
   async componentDidMount() {
     this.handleResults();
+    this.renderTimer();
+  }
+
+  renderTimer = () => {
+    const ONE_SECOND = 1000;
+    setInterval(() => {
+      const { seconds } = this.state;
+      this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
+    }, ONE_SECOND)
   }
 
   handleResults = async () => {
@@ -43,7 +54,7 @@ class Game extends Component {
   };
 
   render() {
-    const { response, questIndex } = this.state;
+    const { response, questIndex, seconds } = this.state;
     console.log(response);
     return (
       <div>
@@ -52,6 +63,7 @@ class Game extends Component {
           if (index === questIndex) {
             return (
               <div key={ index + element }>
+                <Timer seconds={seconds} />
                 <h2 data-testid="question-category">{element.category}</h2>
                 <h3 data-testid="question-text">{element.question}</h3>
                 <div data-testid="answer-options">
@@ -71,9 +83,9 @@ class Game extends Component {
                             .correct_answer === argument
                             ? 'correct-answer' : `wrong-answer-${i}`
                         }
+                        disabled={seconds === 0 ? true : false}
                       >
                         {argument}
-
                       </button>
                     ))}
                 </div>
