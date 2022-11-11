@@ -1,10 +1,11 @@
-import { GET_NAME, GET_EMAIL } from '../actions';
+import { GET_NAME, GET_EMAIL, GET_TIMER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   assertions: '',
   score: 0,
   gravatarEmail: '',
+  timer: 0,
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {
@@ -13,6 +14,8 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     return { ...state, name: action.payload };
   case GET_EMAIL:
     return { ...state, gravatarEmail: action.payload };
+  case GET_TIMER:
+    return { ...state, timer: action.payload };
   default:
     return state;
   }
