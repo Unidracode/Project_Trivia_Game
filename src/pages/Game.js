@@ -7,6 +7,7 @@ class Game extends Component {
   state = {
     response: [],
     questIndex: 0,
+    className: false,
   };
 
   async componentDidMount() {
@@ -30,8 +31,20 @@ class Game extends Component {
     return newArray;
   };
 
+  handleQuestClick = () => {
+    this.setState({ className: true });
+  };
+
+  checkColors = (element, argument) => {
+    const { className } = this.state;
+    if (className) {
+      return element.correct_answer === argument ? 'green-border' : 'red-border';
+    }
+  };
+
   render() {
     const { response, questIndex } = this.state;
+    console.log(response);
     return (
       <div>
         <Header />
@@ -48,7 +61,11 @@ class Game extends Component {
                     .map((argument, i = 0) => (
                       <button
                         type="button"
+                        onClick={ this.handleQuestClick }
+                        className={ this.checkColors(element, argument) }
                         key={ argument }
+                        value={ element.correct_answer === argument
+                          ? 'correct' : 'wrong' }
                         data-testid={
                           element
                             .correct_answer === argument
