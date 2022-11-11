@@ -10,7 +10,6 @@ class Game extends Component {
     questIndex: 0,
     className: false,
     seconds: 30,
-    alternatives: []
   };
 
   async componentDidMount() {
@@ -20,11 +19,11 @@ class Game extends Component {
 
   renderTimer = () => {
     const ONE_SECOND = 1000;
-      setInterval(() => {
-        const { seconds } = this.state;
-        this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
-      }, ONE_SECOND);
-  }
+    setInterval(() => {
+      const { seconds } = this.state;
+      this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
+    }, ONE_SECOND);
+  };
 
   handleResults = async () => {
     const { history } = this.props;
@@ -64,7 +63,7 @@ class Game extends Component {
           if (index === questIndex) {
             return (
               <div key={ index + element }>
-                <Timer seconds={seconds} />
+                <Timer seconds={ seconds } />
                 <h2 data-testid="question-category">{element.category}</h2>
                 <h3 data-testid="question-text">{element.question}</h3>
                 <div data-testid="answer-options">
@@ -84,7 +83,7 @@ class Game extends Component {
                             .correct_answer === argument
                             ? 'correct-answer' : `wrong-answer-${i}`
                         }
-                        disabled={seconds === 0 ? true : false}
+                        disabled={ seconds === 0 }
                       >
                         {argument}
                       </button>
