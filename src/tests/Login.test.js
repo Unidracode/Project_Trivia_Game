@@ -27,7 +27,7 @@ describe('Testes de login.', () => {
         userEvent.type(inputEmail, 'Simulação de Email')
         expect(playButton).toBeEnabled()
     })
-    it('3 - Testa se o Botão play leva para o local desejado.', () => {
+    it('3 - Testa se o Botão play leva para o local desejado.', async () => {
         const { history } = renderWithRouterAndRedux(<App />);
         const inputName = screen.getByPlaceholderText('Nome');
         const inputEmail = screen.getByPlaceholderText('Email');
@@ -35,6 +35,12 @@ describe('Testes de login.', () => {
         userEvent.type(inputName, 'Simulação de Nome');
         userEvent.type(inputEmail, 'Simulação de Email');
         userEvent.click(playButton);
+        const promise = new Promise((response) => {
+            setTimeout(() => {
+                response();
+            }, 2000);
+        });
+        await promise;
         expect(history.location.pathname).toBe('/game');
     })
     it('4 - Testa se o Botão Configurações leva para o local desejado.', () => {
