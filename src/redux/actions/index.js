@@ -1,7 +1,7 @@
 export const RESULT_API = 'RESULT_API';
 export const GET_NAME = 'GET_NAME';
 export const GET_EMAIL = 'GET_EMAIL';
-export const GET_TIMER = 'GET_TIMER';
+export const GET_SCORE = 'GET_SCORE';
 
 export const getName = (payload) => ({
   type: GET_NAME,
@@ -13,7 +13,7 @@ export const getEmail = (payload) => ({
   payload,
 });
 
-export const getTimer = (payload) => ({
-  type: GET_TIMER,
+export const getScore = (payload) => ({
+  type: GET_SCORE,
   payload,
 });
