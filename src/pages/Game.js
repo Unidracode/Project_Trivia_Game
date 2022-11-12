@@ -42,6 +42,10 @@ class Game extends Component {
     this.setState({ response: getAPI.results });
   };
 
+  handleNextQuestionClick = () => {
+    this.setState((prev) => ({ questIndex: prev.questIndex + 1 }));
+  };
+
   render() {
     const { response, questIndex, seconds } = this.state;
     console.log(response);
@@ -56,7 +60,11 @@ class Game extends Component {
                 <h2 data-testid="question-category">{element.category}</h2>
                 <h3 data-testid="question-text">{element.question}</h3>
 
-                <Questions currentQuestion={ element } seconds={ seconds } />
+                <Questions
+                  currentQuestion={ element }
+                  seconds={ seconds }
+                  next={ this.handleNextQuestionClick }
+                />
 
               </div>
             );
