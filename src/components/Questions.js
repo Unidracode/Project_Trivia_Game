@@ -47,6 +47,7 @@ class Questions extends Component {
     const TEN = 10;
     if (value === 'correct') {
       const scoreValue = TEN + (seconds * questDifficulty);
+      console.log(scoreValue);
       dispatch(getScore(scoreValue));
     }
   };
