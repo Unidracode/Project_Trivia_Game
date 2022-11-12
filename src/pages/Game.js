@@ -43,7 +43,13 @@ class Game extends Component {
   };
 
   handleNextQuestionClick = () => {
-    this.setState((prev) => ({ questIndex: prev.questIndex + 1 }));
+    const { questIndex } = this.state;
+    const { history } = this.props;
+    const NUMBER = 3;
+    this.setState((prev) => ({ questIndex: prev.questIndex + 1, seconds: 30 }));
+    if (questIndex > NUMBER) {
+      history.push('/feedback');
+    }
   };
 
   render() {
@@ -52,11 +58,11 @@ class Game extends Component {
     return (
       <div>
         <Header />
-        <Timer seconds={ seconds } />
         {response.map((element, index) => {
           if (index === questIndex) {
             return (
               <div key={ index + element }>
+                <Timer seconds={ seconds } />
                 <h2 data-testid="question-category">{element.category}</h2>
                 <h3 data-testid="question-text">{element.question}</h3>
 
