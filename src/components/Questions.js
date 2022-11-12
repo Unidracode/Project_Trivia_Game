@@ -65,28 +65,41 @@ class Questions extends Component {
   };
 
   render() {
-    const { currentQuestion, seconds } = this.props;
+    const { currentQuestion, seconds, next } = this.props;
     console.log(currentQuestion);
-    const { perguntas } = this.state;
+    const { perguntas, hasClassName } = this.state;
     return (
-      <div data-testid="answer-options">
-        {perguntas.map((element, i = 0) => (
+      <>
+        <div data-testid="answer-options">
+          {perguntas.map((element, i = 0) => (
+            <button
+              key={ element }
+              type="button"
+              value={ element === currentQuestion.correct_answer
+                ? 'correct' : 'wrong' }
+              data-testid={ element === currentQuestion.correct_answer
+                ? 'correct-answer' : `wrong-answer-${i}` }
+              onClick={ this.handleQuestClick }
+              className={ this.checkColors(element) }
+              disabled={ seconds === 0 }
+            >
+              {element}
+
+            </button>
+          ))}
+        </div>
+        { hasClassName && (
           <button
-            key={ element }
+            data-testid="btn-next"
             type="button"
-            value={ element === currentQuestion.correct_answer
-              ? 'correct' : 'wrong' }
-            data-testid={ element === currentQuestion.correct_answer
-              ? 'correct-answer' : `wrong-answer-${i}` }
-            onClick={ this.handleQuestClick }
-            className={ this.checkColors(element) }
-            disabled={ seconds === 0 }
+            onClick={ next }
           >
-            {element}
+            Next
 
           </button>
-        ))}
-      </div>
+        ) }
+      </>
+
     );
   }
 }
