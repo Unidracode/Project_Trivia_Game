@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getScore } from '../redux/actions';
 
 const stateObj = {
   perguntas: [],
   hasClassName: false,
+  questDifficulty: '',
   // timer: 30,
   // color: false,
   // disable: false,
@@ -14,21 +17,43 @@ class Questions extends Component {
 
   componentDidMount() {
     this.handleQuestArray();
+    this.handleDifficulty();
   }
 
   handleQuestArray = () => {
     const { currentQuestion } = this.props;
     const arrayToSort = [...currentQuestion.incorrect_answers,
       currentQuestion.correct_answer];
-    console.log(arrayToSort);
     const ZERO_POINT_FIVE = 0.5;
     const newArray = arrayToSort.sort(() => Math.random() - ZERO_POINT_FIVE);
-    console.log(newArray);
     this.setState({ perguntas: newArray });
   };
 
-  handleQuestClick = () => {
+  handleDifficulty = () => {
+    const { currentQuestion: { difficulty } } = this.props;
+    if (difficulty === 'hard') {
+      this.setState({ questDifficulty: 3 });
+    } else if (difficulty === 'medium') {
+      this.setState({ questDifficulty: 2 });
+    } else if (difficulty === 'easy') {
+      this.setState({ questDifficulty: 1 });
+    }
+  };
+
+  handleScoreClick = (event) => {
+    const { value } = event.target;
+    const { seconds, dispatch } = this.props;
+    const { questDifficulty } = this.state;
+    const TEN = 10;
+    if (value === 'correct') {
+      const scoreValue = TEN + (seconds * questDifficulty);
+      dispatch(getScore(scoreValue));
+    }
+  };
+
+  handleQuestClick = (event) => {
     this.setState({ hasClassName: true });
+    this.handleScoreClick(event);
   };
 
   checkColors = (element) => {
@@ -49,6 +74,8 @@ class Questions extends Component {
           <button
             key={ element }
             type="button"
+            value={ element === currentQuestion.correct_answer
+              ? 'correct' : 'wrong' }
             data-testid={ element === currentQuestion.correct_answer
               ? 'correct-answer' : `wrong-answer-${i}` }
             onClick={ this.handleQuestClick }
@@ -66,7 +93,7 @@ class Questions extends Component {
 
 Questions.propTypes = {}.isRequired;
 
-export default Questions;
+export default connect()(Questions);
 
 // {this
 //   .handleQuestArray([...element.incorrect_answers,
