@@ -42,13 +42,14 @@ class Questions extends Component {
 
   handleScoreClick = (event) => {
     const { value } = event.target;
-    const { seconds, dispatch } = this.props;
+    const { seconds, dispatch, updateCorrectAnswer } = this.props;
     const { questDifficulty } = this.state;
     const TEN = 10;
     if (value === 'correct') {
       const scoreValue = TEN + (seconds * questDifficulty);
       console.log(scoreValue);
       dispatch(getScore(scoreValue));
+      updateCorrectAnswer();
     }
   };
 
@@ -105,30 +106,10 @@ class Questions extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  correctAnswer: state.player.correctAnswer,
+});
+
 Questions.propTypes = {}.isRequired;
 
-export default connect()(Questions);
-
-// {this
-//   .handleQuestArray([...element.incorrect_answers,
-//     element.correct_answer])
-//   .map((argument, i = 0) => (
-
-//     <button
-//       type="button"
-//       onClick={ this.handleQuestClick }
-//       className={ this.checkColors(element, argument) }
-//       key={ argument }
-//       value={ element.correct_answer === argument
-//         ? 'correct' : 'wrong' }
-//       data-testid={
-//         element
-//           .correct_answer === argument
-//           ? 'correct-answer' : `wrong-answer-${i}`
-//       }
-//       disabled={ seconds === 0 }
-//     >
-//       {argument}
-//     </button>
-
-//   ))}
+export default connect(mapStateToProps)(Questions);
