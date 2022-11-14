@@ -12,6 +12,7 @@ class Game extends Component {
     questIndex: 0,
     seconds: 30,
     localCorrectAnswer: 0,
+    intervalId: '',
   };
 
   async componentDidMount() {
@@ -20,7 +21,8 @@ class Game extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.renderTimer);
+    const { intervalId } = this.state;
+    clearInterval(intervalId);
   }
 
   updateCorrectAnswer = () => {
@@ -31,12 +33,14 @@ class Game extends Component {
 
   renderTimer = () => {
     const ONE_SECOND = 1000;
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       const { seconds } = this.state;
+      console.log('teste');
       if (seconds > 0) {
         this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
       }
     }, ONE_SECOND);
+    this.setState({ intervalId });
   };
 
   handleResults = async () => {
