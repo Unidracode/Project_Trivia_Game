@@ -1,4 +1,4 @@
-import { GET_NAME, GET_EMAIL, GET_SCORE } from '../actions';
+import { GET_NAME, GET_EMAIL, GET_SCORE, GET_CORRECTANS /**/ } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   score: 0,
   gravatarEmail: '',
   timer: 0,
+  correctAnswer: 0, //
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {
@@ -16,6 +17,8 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     return { ...state, gravatarEmail: action.payload };
   case GET_SCORE:
     return { ...state, score: state.score + action.payload };
+  case GET_CORRECTANS: //
+    return { ...state, correctAnswer: action.payload }; //
   default:
     return state;
   }
