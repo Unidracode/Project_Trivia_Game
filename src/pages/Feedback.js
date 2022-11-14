@@ -12,14 +12,26 @@ class Feedback extends Component {
     return 'Well Done!';
   };
 
+  playAgain = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
     const { score, assertions } = this.props;
     return (
       <div>
+        <Header />
         <div data-testid="feedback-text">{this.getFeedback()}</div>
         <div data-testid="feedback-total-score">{score}</div>
         <div data-testid="feedback-total-question">{assertions}</div>
-        <Header />
+        <button
+          type="button"
+          onClick={ this.playAgain }
+          data-testid="btn-play-again"
+        >
+          Play Again
+        </button>
       </div>
     );
   }
