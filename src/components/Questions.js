@@ -106,10 +106,6 @@ class Questions extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  correctAnswer: state.player.correctAnswer,
-});
-
 Questions.propTypes = {}.isRequired;
 
-export default connect(mapStateToProps)(Questions);
+export default connect()(Questions);
