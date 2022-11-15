@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  componentDidMount() {
+    const { name, gravatarEmail, score } = this.props;
+    const emailHash = md5(gravatarEmail).toString();
+    const gravatarImage = `https://www.gravatar.com/avatar/${emailHash}`;
+    const playerObject = { name, gravatarImage, score };
+    const checkRanking = localStorage.getItem('ranking');
+    if (checkRanking) {
+      console.log(checkRanking);
+      const parseRanking = JSON.parse(checkRanking);
+      parseRanking.push(playerObject);
+      parseRanking.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(parseRanking));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([playerObject]));
+    }
+  }
+
   getFeedback = () => {
     const THREE = 3;
     const { assertions } = this.props;
@@ -55,6 +73,8 @@ Feedback.propTypes = {}.isRequired;
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
+  name: state.player.name,
+  gravatarEmail: state.player.gravatarEmail,
 });
 
 export default connect(mapStateToProps)(Feedback); //

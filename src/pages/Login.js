@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getName, getEmail } from '../redux/actions';
+import { getName, getEmail, resetGame } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -8,6 +8,11 @@ class Login extends React.Component {
     email: '',
     btnDisabled: true,
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(resetGame());
+  }
 
   handleChange = (event) => {
     const { name, value } = event.target;
