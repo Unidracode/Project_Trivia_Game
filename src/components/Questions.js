@@ -6,10 +6,6 @@ const stateObj = {
   perguntas: [],
   hasClassName: false,
   questDifficulty: '',
-  // timer: 30,
-  // color: false,
-  // disable: false,
-  // nextBtn: false,
 };
 
 class Questions extends Component {
@@ -47,7 +43,6 @@ class Questions extends Component {
     const TEN = 10;
     if (value === 'correct') {
       const scoreValue = TEN + (seconds * questDifficulty);
-      console.log(scoreValue);
       dispatch(getScore(scoreValue));
       updateCorrectAnswer();
     }
@@ -68,7 +63,6 @@ class Questions extends Component {
 
   render() {
     const { currentQuestion, seconds, next } = this.props;
-    console.log(currentQuestion);
     const { perguntas, hasClassName } = this.state;
     return (
       <>

@@ -35,7 +35,6 @@ class Game extends Component {
     const ONE_SECOND = 1000;
     const intervalId = setInterval(() => {
       const { seconds } = this.state;
-      console.log('teste');
       if (seconds > 0) {
         this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
       }
@@ -67,7 +66,6 @@ class Game extends Component {
 
   render() {
     const { response, questIndex, seconds } = this.state;
-    console.log(response);
     return (
       <div>
         <Header />
