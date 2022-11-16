@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getScore } from '../redux/actions';
+import Timer from './Timer';
 
 const stateObj = {
   perguntas: [],
   hasClassName: false,
   questDifficulty: '',
+  seconds: 30,
+  intervalId: '',
 };
 
 class Questions extends Component {
@@ -14,7 +17,24 @@ class Questions extends Component {
   componentDidMount() {
     this.handleQuestArray();
     this.handleDifficulty();
+    this.renderTimer();
+    this.setState({ seconds: 30 });
   }
+
+  componentDidUpdate() {
+    const { intervalId, seconds } = this.state;
+    if (seconds === 0) {
+      clearInterval(intervalId);
+    }
+  }
+
+  renderTimer = () => {
+    const ONE_SECOND = 1000;
+    const intervalId = setInterval(() => {
+      this.setState((prev) => ({ seconds: prev.seconds - 1 }));
+    }, ONE_SECOND);
+    this.setState({ intervalId });
+  };
 
   handleQuestArray = () => {
     const { currentQuestion } = this.props;
@@ -38,8 +58,8 @@ class Questions extends Component {
 
   handleScoreClick = (event) => {
     const { value } = event.target;
-    const { seconds, dispatch, updateCorrectAnswer } = this.props;
-    const { questDifficulty } = this.state;
+    const { dispatch, updateCorrectAnswer } = this.props;
+    const { questDifficulty, seconds } = this.state;
     const TEN = 10;
     if (value === 'correct') {
       const scoreValue = TEN + (seconds * questDifficulty);
@@ -62,12 +82,13 @@ class Questions extends Component {
   };
 
   render() {
-    const { currentQuestion, seconds, next } = this.props;
-    const { perguntas, hasClassName } = this.state;
+    const { currentQuestion, next } = this.props;
+    const { perguntas, hasClassName, seconds } = this.state;
     return (
       <>
+        <Timer seconds={ seconds } />
         <div data-testid="answer-options">
-          {perguntas.map((element, i = 0) => (
+          {perguntas.map((element, i) => (
             <button
               key={ element }
               type="button"

@@ -20,7 +20,7 @@ class Ranking extends Component {
     return (
       <>
         <h1 data-testid="ranking-title">Ranking</h1>
-        { ranking.map((element, index = 0) => (
+        { ranking?.map((element, index) => (
           <>
             <img src={ element.gravatarImage } alt="player" />
             <h2 data-testid={ `player-name-${index}` }>{element.name}</h2>
