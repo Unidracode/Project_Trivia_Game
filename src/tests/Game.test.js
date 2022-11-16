@@ -60,6 +60,7 @@ describe('testes do game', () => {
   });
 
     expect(screen.getByRole('img', { name: /foto do usuário/i })).toBeInTheDocument();
+  
     expect(screen.getByRole('heading', { name: /tryber/i })).toBeInTheDocument();
 
     
