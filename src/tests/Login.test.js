@@ -35,12 +35,6 @@ describe('Testes de login.', () => {
         userEvent.type(inputName, 'Simulação de Nome');
         userEvent.type(inputEmail, 'Simulação de Email');
         userEvent.click(playButton);
-        // const promise = new Promise((response) => {
-        //     setTimeout(() => {
-        //         response();
-        //     }, 2000);
-        // });
-        // await promise;
         await waitFor(() => {
           expect(history.location.pathname).toBe('/game');
         })
