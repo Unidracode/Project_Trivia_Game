@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
-import Timer from '../components/Timer';
+// import Timer from '../components/Timer';
 import triviaAPI from '../helpers/triviaAPI';
 import { getCorrectAnswer } from '../redux/actions';
 
@@ -10,36 +10,25 @@ class Game extends Component {
   state = {
     response: [],
     questIndex: 0,
-    seconds: 30,
+    // seconds: 30,
     localCorrectAnswer: 0,
-    intervalId: '',
+    // intervalId: '',
   };
 
   async componentDidMount() {
     this.handleResults();
-    this.renderTimer();
+    // this.renderTimer();
   }
 
-  componentWillUnmount() {
-    const { intervalId } = this.state;
-    clearInterval(intervalId);
-  }
+  // componentWillUnmount() {
+  //   const { intervalId } = this.state;
+  //   clearInterval(intervalId);
+  // }
 
   updateCorrectAnswer = () => {
     this.setState((prev) => ({
       localCorrectAnswer: prev.localCorrectAnswer + 1,
     }));
-  };
-
-  renderTimer = () => {
-    const ONE_SECOND = 1000;
-    const intervalId = setInterval(() => {
-      const { seconds } = this.state;
-      if (seconds > 0) {
-        this.setState((prev) => ({ seconds: seconds > 0 ? prev.seconds - 1 : 0 }));
-      }
-    }, ONE_SECOND);
-    this.setState({ intervalId });
   };
 
   handleResults = async () => {
@@ -57,7 +46,7 @@ class Game extends Component {
     const { questIndex, localCorrectAnswer } = this.state;
     const { history, dispatch } = this.props;
     const NUMBER = 3;
-    this.setState((prev) => ({ questIndex: prev.questIndex + 1, seconds: 30 }));
+    this.setState((prev) => ({ questIndex: prev.questIndex + 1 }));
     if (questIndex > NUMBER) {
       dispatch(getCorrectAnswer(localCorrectAnswer));
       history.push('/feedback');
@@ -65,7 +54,7 @@ class Game extends Component {
   };
 
   render() {
-    const { response, questIndex, seconds } = this.state;
+    const { response, questIndex } = this.state;
     return (
       <div>
         <Header />
@@ -73,13 +62,11 @@ class Game extends Component {
           if (index === questIndex) {
             return (
               <div key={ index + element }>
-                <Timer seconds={ seconds } />
                 <h2 data-testid="question-category">{element.category}</h2>
                 <h3 data-testid="question-text">{element.question}</h3>
 
                 <Questions
                   currentQuestion={ element }
-                  seconds={ seconds }
                   next={ this.handleNextQuestionClick }
                   updateCorrectAnswer={ this.updateCorrectAnswer }
                 />

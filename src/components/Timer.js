@@ -6,7 +6,7 @@ class Timer extends Component {
     const { seconds } = this.props;
     return (
       <div>
-        <h1>{ seconds }</h1>
+        <h1 data-testid="timer">{ seconds }</h1>
       </div>
     );
   }
