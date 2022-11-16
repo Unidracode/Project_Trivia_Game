@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
@@ -35,13 +35,15 @@ describe('Testes de login.', () => {
         userEvent.type(inputName, 'Simulação de Nome');
         userEvent.type(inputEmail, 'Simulação de Email');
         userEvent.click(playButton);
-        const promise = new Promise((response) => {
-            setTimeout(() => {
-                response();
-            }, 2000);
-        });
-        await promise;
-        expect(history.location.pathname).toBe('/game');
+        // const promise = new Promise((response) => {
+        //     setTimeout(() => {
+        //         response();
+        //     }, 2000);
+        // });
+        // await promise;
+        await waitFor(() => {
+          expect(history.location.pathname).toBe('/game');
+        })
     })
     it('4 - Testa se o Botão Configurações leva para o local desejado.', () => {
         const { history } = renderWithRouterAndRedux(<App />);
