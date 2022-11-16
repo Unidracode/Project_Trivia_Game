@@ -38,7 +38,7 @@ it('1', async () => {
   await waitFor( () => {
     const timer = screen.queryByTestId('timer')
     expect(timer.innerText).toBe('0');
-    }, {timeout: 40000});
+    }, {timeout: 31000});
 
 
 })
