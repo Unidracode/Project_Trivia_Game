@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
+import { questionsResponse } from '../../cypress/mocks/questions';
 
 
 const playTrivia = async () => {
@@ -14,7 +15,7 @@ const playTrivia = async () => {
 }
 
 describe('teste do timer', () => {
-  
+
   jest.setTimeout(45000);
 
 it('1', async () => {
@@ -167,7 +168,7 @@ expect(history.location.pathname).toBe('/');
       }, 2000);
   });
 
-    const wrongAnswerButton = await screen.findByTestId('wrong-answer-0');
+    const wrongAnswerButton = await screen.findByTestId('wrong-answer-1');
     expect(wrongAnswerButton).toBeInTheDocument();
 
     userEvent.click(wrongAnswerButton)

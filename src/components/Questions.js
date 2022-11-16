@@ -51,7 +51,7 @@ class Questions extends Component {
       this.setState({ questDifficulty: 3 });
     } else if (difficulty === 'medium') {
       this.setState({ questDifficulty: 2 });
-    } else if (difficulty === 'easy') {
+    } else {
       this.setState({ questDifficulty: 1 });
     }
   };
